@@ -6,8 +6,9 @@ import MovieList from './Movies/MovieList';
 import Movie from './Movies/Movie';
 import SavedList from './Movies/SavedList';
 
+
 export default function App () {
-  const [saved, setSaved] = useState(); // Stretch: the ids of "saved" movies
+  const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
   const [movieList, setMovieList] = useState(null);
 
   useEffect(() => {
@@ -28,6 +29,14 @@ export default function App () {
 
   const addToSavedList = id => {
     // This is stretch. Prevent the same movie from being "saved" more than once
+    const movie = movieList.find(mvie => {return mvie.id == id})
+
+    if (!saved) {
+      setSaved([ movie ]);
+    } else {
+      setSaved(saved.concat([ movie ]));
+    }
+
   };
 
   if (!movieList) {
@@ -38,12 +47,10 @@ export default function App () {
 
   return (
     <div>
-      <SavedList list={[ /* This is stretch */]} />
-
-      <div>Replace this Div with your Routes</div>
+      <SavedList list={saved} />
 
       <Route exact path="/" component={() => <MovieList movies={movieList} />} />
-      <Route path="/movies/:id" component={Movie} />
+      <Route path="/movies/:id" component={() => <Movie addToSavedList={addToSavedList} />} />
 
     </div>
   );

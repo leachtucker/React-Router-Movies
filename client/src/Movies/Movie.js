@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default function Movie(props) {
   const [movie, setMovie] = useState();
+  const { addToSavedList } = props;
 
   let id = useParams().id;
 
@@ -24,7 +25,7 @@ export default function Movie(props) {
     // the `id` changes... How could we do this?
   }, [ id ]);
 
-  // Uncomment this only when you have moved on to the stretch goals
+  // // Uncomment this only when you have moved on to the stretch goals
   // const saveMovie = evt => { }
 
   if (!movie) {
@@ -51,7 +52,7 @@ export default function Movie(props) {
           </div>
         ))}
       </div>
-      <div className="save-button">Save</div>
+      <div className="save-button" onClick={() => {addToSavedList(id)}}>Save</div>
     </div>
   );
 }
